@@ -15,6 +15,10 @@
  */
 package com.alibaba.dubbo.demo;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.alibaba.dubbo.common.serialize.support.SerializationOptimizer;
 import com.alibaba.dubbo.demo.bid.BidRequest;
 import com.alibaba.dubbo.demo.bid.BidResponse;
@@ -24,10 +28,6 @@ import com.alibaba.dubbo.demo.bid.Impression;
 import com.alibaba.dubbo.demo.bid.SeatBid;
 import com.alibaba.dubbo.demo.user.User;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * This class must be accessible from both the provider and consumer
  *
@@ -35,15 +35,15 @@ import java.util.List;
  */
 public class SerializationOptimizerImpl implements SerializationOptimizer {
 
-    public Collection<Class> getSerializableClasses() {
-        List<Class> classes = new LinkedList<Class>();
-        classes.add(BidRequest.class);
-        classes.add(BidResponse.class);
-        classes.add(Device.class);
-        classes.add(Geo.class);
-        classes.add(Impression.class);
-        classes.add(SeatBid.class);
-        classes.add(User.class);
-        return classes;
-    }
+	public Collection<Class<?>> getSerializableClasses() {
+		List<Class<?>> classes = new LinkedList<Class<?>>();
+		classes.add(BidRequest.class);
+		classes.add(BidResponse.class);
+		classes.add(Device.class);
+		classes.add(Geo.class);
+		classes.add(Impression.class);
+		classes.add(SeatBid.class);
+		classes.add(User.class);
+		return classes;
+	}
 }

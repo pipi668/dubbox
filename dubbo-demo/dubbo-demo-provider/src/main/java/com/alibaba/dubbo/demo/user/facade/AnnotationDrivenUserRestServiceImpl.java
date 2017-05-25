@@ -32,33 +32,37 @@ import javax.ws.rs.core.MediaType;
 /**
  * @author lishen
  */
-@Service(protocol = {"rest", "dubbo"}, group = "annotationConfig", validation = "true")
+@Service(protocol = { /* "rest", */"dubbo" }, group = "annotationConfig", validation = "true")
 @Path("customers")
-@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
-@Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
+@Consumes({ MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
+@Produces({ ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8 })
 public class AnnotationDrivenUserRestServiceImpl implements UserRestService {
 
-//    private static final Logger logger = LoggerFactory.getLogger(UserRestServiceImpl.class);
+	// private static final Logger logger =
+	// LoggerFactory.getLogger(UserRestServiceImpl.class);
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
-    @GET
-    @Path("{id : \\d+}")
-    public User getUser(@PathParam("id") Long id/*, @Context HttpServletRequest request*/) {
-        // test context injection
-//        System.out.println("Client address from @Context injection: " + (request != null ? request.getRemoteAddr() : ""));
-//        System.out.println("Client address from RpcContext: " + RpcContext.getContext().getRemoteAddressString());
-        return userService.getUser(id);
-    }
+	@GET
+	@Path("{id : \\d+}")
+	public User getUser(
+			@PathParam("id") Long id/* , @Context HttpServletRequest request */) {
+		// test context injection
+		// System.out.println("Client address from @Context injection: " +
+		// (request != null ? request.getRemoteAddr() : ""));
+		// System.out.println("Client address from RpcContext: " +
+		// RpcContext.getContext().getRemoteAddressString());
+		return userService.getUser(id);
+	}
 
-    @POST
-    @Path("register")
-    public RegistrationResult registerUser(User user) {
-        return new RegistrationResult(userService.registerUser(user));
-    }
+	@POST
+	@Path("register")
+	public RegistrationResult registerUser(User user) {
+		return new RegistrationResult(userService.registerUser(user));
+	}
 }
