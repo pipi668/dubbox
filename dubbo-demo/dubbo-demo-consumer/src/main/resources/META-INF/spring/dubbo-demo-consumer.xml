@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="demo-consumer" owner="programmer" organization="dubbox"/>
+	<dubbo:application name="demo-consumer" owner="programmer"
+		organization="dubbox" />
+	<dubbo:protocol name="dubbo" serialization="kryo"
+		optimizer="com.alibaba.dubbo.demo.SerializationOptimizerImpl" />
+	<dubbo:protocol name="hessian" />
+	<!-- 注册中心管理 -->
+	<!-- 使用zookeeper广播注册中心暴露服务地址 -->
+	<!-- <dubbo:registry address="zookeeper://10.143.117.17:2181?backup=10.143.117.18:2181,10.143.117.19:2181"/> -->
+	<!-- 使用multicast广播注册中心暴露服务地址 -->
+	<dubbo:registry address="multicast://224.5.6.7:1234" />
+	<!--uncomment this if you want to test dubbo's monitor -->
+	<!--<dubbo:monitor protocol="registry"/> -->
 
-    <dubbo:registry address="zookeeper://10.143.117.17:2181?backup=10.143.117.18:2181,10.143.117.19:2181"/>
+	<dubbo:reference id="bidService"
+		interface="com.alibaba.dubbo.demo.bid.BidService" />
+	<dubbo:reference id="anotherUserRestService"
+		interface="com.alibaba.dubbo.demo.user.facade.AnotherUserRestService" />
 
-    <!--uncomment this if you want to test dubbo's monitor-->
-    <!--<dubbo:monitor protocol="registry"/>-->
-
-    <dubbo:reference id="bidService" interface="com.alibaba.dubbo.demo.bid.BidService"/>
-    <dubbo:reference id="anotherUserRestService" interface="com.alibaba.dubbo.demo.user.facade.AnotherUserRestService"/>
-
-    <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
-    <!--<dubbo:reference id="anotherUserRestService" interface="com.alibaba.dubbo.demo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
-
+	<!-- directly connect to provider to simulate the access to non-dubbo rest 
+		services -->
+	<!-- <dubbo:reference id="bidService" url="dubbo://192.168.56.1:20880" interface="com.alibaba.dubbo.demo.bid.BidService" 
+		/> <dubbo:reference id="anotherUserRestService" interface="com.alibaba.dubbo.demo.user.facade.AnotherUserRestService" 
+		url="rest://192.168.56.1:8888/services/" /> -->
 </beans>
